@@ -20,19 +20,21 @@ class M601:
 
 
     def read_settings(self):
-        self.set_report([5, 1, 0, 0, 0, 0])
+        self.set_report(0x0305, [5, 1, 0, 0, 0, 0])
         self.get_report(0x0305, 6)
-        self.set_report([5, 2, 0, 0, 0, 0])
+        self.set_report(0x0305, [5, 2, 0, 0, 0, 0])
         self.get_report(0x0305, 6)
-        self.set_report([5, 0x11, 0, 0, 0, 0])
+        self.set_report(0x0305, [5, 0x11, 0, 0, 0, 0])
         self.settings_1 = self.get_report(0x0304, 520)
-        self.set_report([5, 0x21, 0, 0, 0, 0])
+        self.set_report(0x0305, [5, 0x21, 0, 0, 0, 0])
         self.settings_2 = self.get_report(0x0304, 520)
         #print(self.settings_1)
         #print(self.settings_2)
 
     def write_settings(self):
-        pass
+        self.set_report(0x0305, [5, 0x21, 0, 0, 0, 0])
+        self.get_report(0x0304, 520)
+        self.set_report(0x0305, self.settings_package)
 
 
     def parse_settings(self, settings):
@@ -60,7 +62,7 @@ class M601:
         self.raw_breathing_number_of_colors = settings[61]
         self.raw_breathing_colors = [0] * 21
         for i in range(21):
-            self.breathing_colors[i] = settings[62 + i]
+            self.raw_breathing_colors[i] = settings[62 + i]
 
         self.raw_tail_speed = settings[83]
 
@@ -76,13 +78,27 @@ class M601:
 
 
     def make_package(self):
-        pass
+        self.settings_package = [0x04, 0x21, 0, 0, 0, 0, 6, 0, 0x64, 0x08,
+                                 self.raw_polling_rate, self.raw_active_dpi_presets,
+                                 self.raw_enabled_dpi_presets, *self.raw_dpi_values,
+                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, *self.raw_dpi_colors,
+                                 0, 0, 0, 0, 0, 0, 0, 0, 0, self.raw_current_lighting_effect,
+                                 self.raw_colorful_streaming_speed,
+                                 self.raw_colorful_streaming_direction,
+                                 self.raw_steady_brightness, *self.raw_steady_color,
+                                 self.raw_breathing_speed, self.raw_breathing_number_of_colors,
+                                 *self.raw_breathing_colors, self.raw_tail_speed,
+                                 self.raw_neon_speed, 0x30, *self.raw_colorful_steady_colors,
+                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x02, 0, 0xff, 0, 0xfa, 0x03, 0x6a,
+                                 self.raw_streaming_speed, self.raw_wave_speed, 0, 0, 0, 0]
+        for i in range(397):
+            self.settings_package.append(0)
 
-    def set_report(self, payload):
+    def set_report(self, wValue, payload):
         self.dev.ctrl_transfer(
             0x21,   # bmRequestType
             0x09,   # bRequest
-            0x0305, # ReportID:5, ReportType:3 (Feature) 
+            wValue,
             1,      # wIndex: 1
             payload # the HID payload as a byte array
         )
@@ -107,3 +123,5 @@ if __name__ == '__main__':
     mouse = M601()
     mouse.read_settings()
     mouse.parse_settings(mouse.settings_2)
+    mouse.make_package()
+    mouse.write_settings()
