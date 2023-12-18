@@ -115,7 +115,7 @@ class M601:
     def change_mode(self, mode):
         if mode not in [1, 2]:
             raise ValueError('Wrong mode')
-        self.set_report([5, 2, mode, 0, 0, 0])
+        self.set_report(0x0305,[5, 2, mode, 0, 0, 0])
 
 
 if __name__ == '__main__':
