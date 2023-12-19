@@ -28,8 +28,6 @@ class M601:
         self.settings_1 = self.get_report(0x0304, 520)
         self.set_report(0x0305, [5, 0x21, 0, 0, 0, 0])
         self.settings_2 = self.get_report(0x0304, 520)
-        #print(self.settings_1)
-        #print(self.settings_2)
 
     def write_settings(self):
         self.set_report(0x0305, [5, 0x21, 0, 0, 0, 0])
@@ -38,6 +36,7 @@ class M601:
 
 
     def parse_settings(self, settings):
+        self.raw_header = settings[0:10]
         self.raw_polling_rate = settings[10]
         self.raw_active_dpi_presets = settings[11]
         self.raw_enabled_dpi_presets = settings[12]
@@ -78,7 +77,7 @@ class M601:
 
 
     def make_package(self):
-        self.settings_package = [0x04, 0x21, 0, 0, 0, 0, 6, 0, 0x64, 0x08,
+        self.settings_package = [*self.raw_header,
                                  self.raw_polling_rate, self.raw_active_dpi_presets,
                                  self.raw_enabled_dpi_presets, *self.raw_dpi_values,
                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, *self.raw_dpi_colors,
@@ -124,4 +123,6 @@ if __name__ == '__main__':
     mouse.read_settings()
     mouse.parse_settings(mouse.settings_2)
     mouse.make_package()
+    print(mouse.settings_package)
+    print(len(mouse.settings_package))
     mouse.write_settings()
