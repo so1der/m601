@@ -5,7 +5,7 @@ from main import M601
 parser = argparse.ArgumentParser()
 parser.add_argument("-m", "--Mode", help = "Switch mouse mode (1-2)")
 parser.add_argument("-r", "--Read", 
-                    help = "Reads current mouse settings into two .ini files",
+                    help = "Reads current mouse settings into .ini file",
                     metavar = "FILE")
 parser.add_argument("-d", "--Dump", 
                     help = "Reads raw mouse settings into file",
@@ -25,8 +25,8 @@ if args.Dump:
 
 
 
-def make_ini():
-    ini = f"""[DEFAULT]
+def make_ini(mode):
+    ini = f"""[{mode}]
 
 usb_polling_rate = {polling_rate[mouse.raw_polling_rate - 1]}
 active_dpi_preset = {mouse.raw_active_dpi_presets >> 4}
@@ -74,14 +74,15 @@ colorful_steady_LED5_color = {mouse.raw_colorful_steady_colors[12:15]}
 streaming_speed = {mouse.raw_streaming_speed - 48}
 
 wave_speed = {mouse.raw_wave_speed - 48}
+
 """
     return ini
 
 if args.Read:
     mouse.read_settings()
     mouse.parse_settings(mouse.settings_1)
-    with open(f"{args.Read}_1.ini", "w") as f:
-        f.write(make_ini())
+    with open(f"{args.Read}.ini", "w") as f:
+        f.write(make_ini("mode_1"))
     mouse.parse_settings(mouse.settings_2)
-    with open(f"{args.Read}_2.ini", "w") as f:
-        f.write(make_ini())
+    with open(f"{args.Read}.ini", "a") as f:
+        f.write(make_ini("mode_2"))
