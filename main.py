@@ -39,7 +39,7 @@ class M601:
         self.raw_header = settings[0:10]
         self.raw_polling_rate = settings[10]
         self.raw_active_dpi_presets = settings[11]
-        self.raw_enabled_dpi_presets = settings[12]
+        self.raw_disabled_dpi_presets = settings[12]
         self.raw_dpi_values = [0] * 5
         for i in range(5):
             self.raw_dpi_values[i] = settings[13 + i]
@@ -79,7 +79,7 @@ class M601:
     def make_package(self):
         self.settings_package = [*self.raw_header,
                                  self.raw_polling_rate, self.raw_active_dpi_presets,
-                                 self.raw_enabled_dpi_presets, *self.raw_dpi_values,
+                                 self.raw_disabled_dpi_presets, *self.raw_dpi_values,
                                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, *self.raw_dpi_colors,
                                  0, 0, 0, 0, 0, 0, 0, 0, 0, self.raw_current_lighting_effect,
                                  self.raw_colorful_streaming_speed,
