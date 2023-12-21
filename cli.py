@@ -32,25 +32,25 @@ if args.Dump:
 
 def make_ini(mode):
     ini = f"""[{mode}]
-; This parameter set USB polling rate.
+; This parameter sets the USB polling rate.
 ; Possible value for this mouse is 125, 250, 500, or 1000 Hz
 usb_polling_rate = {polling_rate[mouse.raw_polling_rate - 1]}
 
-; This parameter set active DPI preset among enabled presets
-; Note: This is not preset number, its it sequence number betwen enabled presets.
+; This parameter sets active DPI preset among enabled presets
+; Note: This is not a preset number, it is it sequence number between enabled presets.
 active_dpi_preset = {mouse.raw_active_dpi_presets >> 4}
 
 ; This parameter disables certain DPI presets, in order: 1 2 3 4 5
 ; where 0 - preset is enabled, 1 - preset is disabled
-; for example if you want to disable 4 and 3 DPI preset:
+; for example, if you want to disable 4 and 3 DPI preset:
 ; disabled_dpi_presets = 00110
 ; if you want to disable only 1 preset:
 ; 10000
 disabled_dpi_presets = {"{0:b}".format(mouse.raw_disabled_dpi_presets)[3:8][::-1]}
 
-; These parameters are setting certain DPI value for certain DPI presets
+; These parameters are setting certain DPI values for certain DPI presets
 ; Possible DPI values for this mouse are:
-; 500, 800, 1000, 1200, 1600, 2000, ; 2400, 3000, 3200, 3500, 4000, 4500,
+; 500, 800, 1000, 1200, 1600, 2000, 2400, 3000, 3200, 3500, 4000, 4500,
 ; 5000, 5500, 6000, 7200.
 dpi_1 = {DPI[mouse.raw_dpi_values[0] - 1]}
 dpi_2 = {DPI[mouse.raw_dpi_values[1] - 1]}
@@ -58,7 +58,7 @@ dpi_3 = {DPI[mouse.raw_dpi_values[2] - 1]}
 dpi_4 = {DPI[mouse.raw_dpi_values[3] - 1]}
 dpi_5 = {DPI[mouse.raw_dpi_values[4] - 1]}
 
-; These parameters are setting certain color for certain DPI presets
+; These parameters are setting certain colors for certain DPI presets
 ; You will see these colors when switching between presets
 ; [Red, Green, Blue]
 ; Possible values are 0-255
@@ -68,11 +68,11 @@ dpi_3_color = {mouse.raw_dpi_colors[6:9]}
 dpi_4_color = {mouse.raw_dpi_colors[9:12]}
 dpi_5_color = {mouse.raw_dpi_colors[12:15]}
 
-; This parameter set current lighting effect:
+; This parameter sets the current lighting effect:
 ; 0 = None
 ; 1 = Colorful Streaming
 ; 2 = Steady
-; 3 = Breating
+; 3 = Breathing
 ; 4 = Tail
 ; 5 = Neon
 ; 6 = Colorful Steady
@@ -81,28 +81,28 @@ dpi_5_color = {mouse.raw_dpi_colors[12:15]}
 ; 9 = Wave
 lighting_effect = {mouse.raw_current_lighting_effect}
 
-; This parameter set speed for "Colorful Streaming" lighting effect
+; This parameter sets speed for the "Colorful Streaming" lighting effect
 ; Possible values are 1-3
 colorful_streaming_speed = {mouse.raw_colorful_streaming_speed - 16}
-; This parameter set direction for "Colorful Streaming" lighting effect
+; This parameter sets the direction for the "Colorful Streaming" lighting effect
 ; 0 = Backward, 1 = Forward
-colorufl_streaming_direction = {mouse.raw_colorful_streaming_direction}
+colorful_streaming_direction = {mouse.raw_colorful_streaming_direction}
 
-; This parameter set brightness for "Steady" lighting effect
-; Posible values are 25, 50, 75 or 100
+; This parameter sets brightness for the "Steady" lighting effect
+; Possible values are 25, 50, 75 or 100
 steady_brightness = {int(mouse.raw_steady_brightness / 16 * 25)}
-; This parameter set color fo "Steady" lighting effect
+; This parameter sets color for the "Steady" lighting effect
 ; [Red, Green, Blue]
 ; Possible values are 0-255
 steady_color = {mouse.raw_steady_color}
 
-; This parameter set speed for "Breathing" lighting effect
+; This parameter sets speed for the "Breathing" lighting effect
 ; Possible values are 1-3
 breathing_speed = {mouse.raw_breathing_speed - 48}
-; This parameter set amount of colors for "Breathing" lighting effect
+; This parameter sets amount of colors for the "Breathing" lighting effect
 ; Possible values are 1-7
 breathing_number_of_colors = {mouse.raw_breathing_number_of_colors}
-; These parameters are setting colors for "Breathing" lighting effect
+; These parameters are setting colors for the "Breathing" lighting effect
 ; [Red, Green, Blue]
 ; Possible values are 0-255
 ; Unused colors should be set as [0, 0, 0]
@@ -114,15 +114,15 @@ breathing_color_5 = {mouse.raw_breathing_colors[12:15]}
 breathing_color_6 = {mouse.raw_breathing_colors[15:18]}
 breathing_color_7 = {mouse.raw_breathing_colors[18:21]}
 
-; This parameter set speed for "Tail" lighting effect
+; This parameter sets speed for the "Tail" lighting effect
 ; Possible values are 1-3
 tail_speed = {mouse.raw_tail_speed - 48}
 
-; This parameter set speed for "Neon" lighting effect
+; This parameter sets speed for the "Neon" lighting effect
 ; Possible values are 1-3
 neon_speed = {mouse.raw_neon_speed - 48}
 
-; These parameters are setting colors for certain LEDs in "Colorful Steady" lighting effect
+; These parameters are setting colors for certain LEDs in the "Colorful Steady" lighting effect
 ; [Red, Green, Blue]
 ; Possible values are 0-255
 ; You can disable certain LED by set it as [0, 0, 0]
@@ -132,11 +132,11 @@ colorful_steady_LED3_color = {mouse.raw_colorful_steady_colors[6:9]}
 colorful_steady_LED4_color = {mouse.raw_colorful_steady_colors[9:12]}
 colorful_steady_LED5_color = {mouse.raw_colorful_steady_colors[12:15]}
 
-; This parameter set speed for "Streaming" lighting effect
+; This parameter sets the speed for the "Streaming" lighting effect
 ; Possible values are 1-3
 streaming_speed = {mouse.raw_streaming_speed - 48}
 
-; This parameter set speed for "Wave" lighting effect
+; This parameter sets speed for the "Wave" lighting effect
 ; Possible values are 1-3
 wave_speed = {mouse.raw_wave_speed - 48}
 
@@ -167,7 +167,7 @@ def parse_ini(mode):
         mouse.raw_dpi_colors[i] = int(dpi_colors[i])
     mouse.raw_current_lighting_effect = int(mode['lighting_effect'])
     mouse.raw_colorful_streaming_speed = int(mode['colorful_streaming_speed']) + 16
-    mouse.raw_colorful_streaming_direction = int(mode['colorufl_streaming_direction'])
+    mouse.raw_colorful_streaming_direction = int(mode['colorful_streaming_direction'])
     mouse.raw_steady_brightness = int(int(mode['steady_brightness']) * 16 / 25)
     steady_color = mode['steady_color']
     steady_color = steady_color.replace("[", "").replace("]", "")
