@@ -26,8 +26,13 @@ class M601:
         self.get_report(0x0305, 6)
         self.set_report(0x0305, [5, 0x11, 0, 0, 0, 0])
         self.settings_1 = self.get_report(0x0304, 520)
+        self.set_report(0x0305, [5, 0x12, 0, 0, 0, 0])
+        self.buttons_1 = self.get_report(0x0304, 520)
         self.set_report(0x0305, [5, 0x21, 0, 0, 0, 0])
         self.settings_2 = self.get_report(0x0304, 520)
+        self.set_report(0x0305, [5, 0x22, 0, 0, 0, 0])
+        self.buttons_2 = self.get_report(0x0304, 520)
+
 
     def write_settings(self):
         self.set_report(0x0305, [5, 0x21, 0, 0, 0, 0])
@@ -123,8 +128,5 @@ if __name__ == '__main__':
 
     mouse = M601()
     mouse.read_settings()
-    mouse.parse_settings(mouse.settings_2)
-    mouse.make_package()
-    print(mouse.settings_package)
-    print(len(mouse.settings_package))
-    mouse.write_settings()
+    print(mouse.buttons_1)
+    print(mouse.buttons_2)
