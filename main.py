@@ -46,7 +46,7 @@ class M601:
         settings = list(settings)
 
         self.raw_header = settings[0:10]
-        
+
         self.raw_polling_rate = settings[10]
         self.raw_active_dpi_presets = settings[11]
         self.raw_disabled_dpi_presets = settings[12]
@@ -75,6 +75,13 @@ class M601:
 
         self.raw_wave_speed = settings[118]
 
+    def parse_buttons(self, buttons):
+        self.button_1 = buttons[8:12]
+        self.button_2 = buttons[12:16]
+        self.button_3 = buttons[16:20]
+        self.button_4 = buttons[24:28]
+        self.button_5 = buttons[20:24]
+        self.button_6 = buttons[32:36]
 
     def make_package(self):
         self.settings_package = [*self.raw_header,
@@ -121,5 +128,4 @@ if __name__ == '__main__':
 
     mouse = M601()
     mouse.read_settings()
-    print(mouse.buttons_1)
-    print(mouse.buttons_2)
+    mouse.parse_buttons(mouse.buttons_1)
