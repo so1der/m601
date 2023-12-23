@@ -40,6 +40,7 @@ class M601:
         if len(self.settings_package) != 520:
             raise ValueError("Length of configuration package is incorrect. Check .ini file.")
         self.set_report(0x0305, self.settings_package)
+        self.set_report(0x0304, self.button_package)
 
 
     def parse_settings(self, settings):
@@ -76,6 +77,7 @@ class M601:
         self.raw_wave_speed = settings[118]
 
     def parse_buttons(self, buttons):
+        self.buttons_header = buttons[0:8]
         self.button_1 = buttons[8:12]
         self.button_2 = buttons[12:16]
         self.button_3 = buttons[16:20]
@@ -99,6 +101,18 @@ class M601:
                                  self.raw_streaming_speed, self.raw_wave_speed, 0, 0, 0, 0]
         for i in range(397):
             self.settings_package.append(0)
+        
+        disabled_button = [0x50, 0x01, 0, 0]
+
+        self.button_package = [*self.buttons_header, *self.button_1, *self.button_2,
+                               *self.button_3, *self.button_5, *self.button_4, 
+                               0x50, 0x06, 0, 0, *self.button_6, *disabled_button,
+                               0x50, 0x06, 0, 0, *disabled_button, *disabled_button,
+                               *disabled_button, *disabled_button, *disabled_button,
+                               *disabled_button, *disabled_button, *disabled_button,
+                               *disabled_button, *disabled_button, *disabled_button,]
+        for i in range(432):
+            self.button_package.append(0)
 
     def set_report(self, wValue, payload):
         self.dev.ctrl_transfer(
@@ -128,4 +142,7 @@ if __name__ == '__main__':
 
     mouse = M601()
     mouse.read_settings()
+    mouse.parse_settings(mouse.settings_1)
     mouse.parse_buttons(mouse.buttons_1)
+    mouse.make_package()
+    print(len(mouse.button_package))

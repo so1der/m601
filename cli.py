@@ -69,6 +69,9 @@ dpi_4_color = {mouse.raw_dpi_colors[9:12]}
 dpi_5_color = {mouse.raw_dpi_colors[12:15]}
 
 ; These parameters are setting certain mouse buttons
+; Possible values: left, right, middle, back, forward,
+; scroll_up, scroll_down, double_click, triple_click,
+; dpi_loop, dpi_up, dpi_down, disable_button, switch_effect
 button_1 = {list(buttons_codes.keys())[list(buttons_codes.values()).index(list(mouse.button_1))]}
 button_2 = {list(buttons_codes.keys())[list(buttons_codes.values()).index(list(mouse.button_2))]}
 button_3 = {list(buttons_codes.keys())[list(buttons_codes.values()).index(list(mouse.button_3))]}
@@ -205,6 +208,13 @@ def parse_ini(mode):
     mouse.raw_streaming_speed = int(mode['streaming_speed']) + 48
     mouse.raw_wave_speed = int(mode['wave_speed']) + 48
 
+    mouse.button_1 = buttons_codes[mode['button_1']]
+    mouse.button_2 = buttons_codes[mode['button_2']]
+    mouse.button_3 = buttons_codes[mode['button_3']]
+    mouse.button_4 = buttons_codes[mode['button_4']]
+    mouse.button_5 = buttons_codes[mode['button_5']]
+    mouse.button_6 = buttons_codes[mode['button_6']]
+
 
 if args.Write:
     mouse.read_settings()
@@ -213,10 +223,12 @@ if args.Write:
     config_1 = config['mode_1']
     config_2 = config['mode_2']
     mouse.parse_settings(mouse.settings_1)
+    mouse.parse_buttons(mouse.buttons_1)
     parse_ini(config_1)
     mouse.make_package()
     mouse.write_settings()
     mouse.parse_settings(mouse.settings_2)
+    mouse.parse_buttons(mouse.buttons_2)
     parse_ini(config_2)
     mouse.make_package()
     mouse.write_settings()
