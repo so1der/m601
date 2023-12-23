@@ -1,6 +1,6 @@
 import argparse
 import configparser
-from values import DPI, polling_rate
+from values import DPI, polling_rate, keys
 from main import M601
 
 parser = argparse.ArgumentParser()
@@ -67,6 +67,14 @@ dpi_2_color = {mouse.raw_dpi_colors[3:6]}
 dpi_3_color = {mouse.raw_dpi_colors[6:9]}
 dpi_4_color = {mouse.raw_dpi_colors[9:12]}
 dpi_5_color = {mouse.raw_dpi_colors[12:15]}
+
+; These parameters are setting certain mouse buttons
+button_1 = {list(keys.keys())[list(keys.values()).index(list(mouse.button_1))]}
+button_2 = {list(keys.keys())[list(keys.values()).index(list(mouse.button_2))]}
+button_3 = {list(keys.keys())[list(keys.values()).index(list(mouse.button_3))]}
+button_4 = {list(keys.keys())[list(keys.values()).index(list(mouse.button_4))]}
+button_5 = {list(keys.keys())[list(keys.values()).index(list(mouse.button_5))]}
+button_6 = {list(keys.keys())[list(keys.values()).index(list(mouse.button_6))]}
 
 ; This parameter sets the current lighting effect:
 ; 0 = None
@@ -146,9 +154,11 @@ wave_speed = {mouse.raw_wave_speed - 48}
 if args.Read:
     mouse.read_settings()
     mouse.parse_settings(mouse.settings_1)
+    mouse.parse_buttons(mouse.buttons_1)
     with open(f"{args.Read}.ini", "w") as f:
         f.write(make_ini("mode_1"))
     mouse.parse_settings(mouse.settings_2)
+    mouse.parse_buttons(mouse.buttons_2)
     with open(f"{args.Read}.ini", "a") as f:
         f.write(make_ini("mode_2"))
 
