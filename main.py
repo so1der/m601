@@ -43,16 +43,15 @@ class M601:
 
 
     def parse_settings(self, settings):
+        settings = list(settings)
+
         self.raw_header = settings[0:10]
+        
         self.raw_polling_rate = settings[10]
         self.raw_active_dpi_presets = settings[11]
         self.raw_disabled_dpi_presets = settings[12]
-        self.raw_dpi_values = [0] * 5
-        for i in range(5):
-            self.raw_dpi_values[i] = settings[13 + i]
-        self.raw_dpi_colors = [0] * 15
-        for i in range(15):
-            self.raw_dpi_colors[i] = settings[29 + i]
+        self.raw_dpi_values = settings[13:18]
+        self.raw_dpi_colors = settings[29:44]
 
         self.raw_current_lighting_effect = settings[53]
 
@@ -60,23 +59,17 @@ class M601:
         self.raw_colorful_streaming_direction = settings[55]
 
         self.raw_steady_brightness = settings[56]
-        self.raw_steady_color = [0] * 3
-        for i in range(3):
-            self.raw_steady_color[i] = settings[57 + i]
+        self.raw_steady_color = settings[57:60]
 
         self.raw_breathing_speed = settings[60]
         self.raw_breathing_number_of_colors = settings[61]
-        self.raw_breathing_colors = [0] * 21
-        for i in range(21):
-            self.raw_breathing_colors[i] = settings[62 + i]
+        self.raw_breathing_colors = settings[62:83]
 
         self.raw_tail_speed = settings[83]
 
         self.raw_neon_speed = settings[84]
 
-        self.raw_colorful_steady_colors = [0] * 15
-        for i in range(15):
-            self.raw_colorful_steady_colors[i] = settings[86 + i]
+        self.raw_colorful_steady_colors = settings[86:101]
 
         self.raw_streaming_speed = settings[117]
 
