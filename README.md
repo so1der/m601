@@ -101,6 +101,13 @@ m601 -w settings.ini
 python cli.py -w settings.ini
 ```
 Thats it! Your new settings should be already in the mouse.
+
+There is also a file called 'default_settings.ini' in this repository, you can reset your mouse settings by writing this file into your mouse:
+```bash
+m601 -w default_settings.ini
+# or
+python cli.py -w default_settings.ini
+```
 In addition, you can also change the mouse mode:
 ```bash
 m601 -m 1
