@@ -1,6 +1,6 @@
 import argparse
 import configparser
-from values import DPI, polling_rate, keys
+from values import DPI, polling_rate, buttons_codes
 from main import M601
 
 parser = argparse.ArgumentParser()
@@ -69,12 +69,12 @@ dpi_4_color = {mouse.raw_dpi_colors[9:12]}
 dpi_5_color = {mouse.raw_dpi_colors[12:15]}
 
 ; These parameters are setting certain mouse buttons
-button_1 = {list(keys.keys())[list(keys.values()).index(list(mouse.button_1))]}
-button_2 = {list(keys.keys())[list(keys.values()).index(list(mouse.button_2))]}
-button_3 = {list(keys.keys())[list(keys.values()).index(list(mouse.button_3))]}
-button_4 = {list(keys.keys())[list(keys.values()).index(list(mouse.button_4))]}
-button_5 = {list(keys.keys())[list(keys.values()).index(list(mouse.button_5))]}
-button_6 = {list(keys.keys())[list(keys.values()).index(list(mouse.button_6))]}
+button_1 = {list(buttons_codes.keys())[list(buttons_codes.values()).index(list(mouse.button_1))]}
+button_2 = {list(buttons_codes.keys())[list(buttons_codes.values()).index(list(mouse.button_2))]}
+button_3 = {list(buttons_codes.keys())[list(buttons_codes.values()).index(list(mouse.button_3))]}
+button_4 = {list(buttons_codes.keys())[list(buttons_codes.values()).index(list(mouse.button_4))]}
+button_5 = {list(buttons_codes.keys())[list(buttons_codes.values()).index(list(mouse.button_5))]}
+button_6 = {list(buttons_codes.keys())[list(buttons_codes.values()).index(list(mouse.button_6))]}
 
 ; This parameter sets the current lighting effect:
 ; 0 = None
