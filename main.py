@@ -34,18 +34,17 @@ class M601:
         self.buttons_2 = self.get_report(0x0304, 520)
 
 
-    def write_settings(self):
-        self.set_report(0x0305, [5, 0x21, 0, 0, 0, 0])
+    def write_settings(self, byte):
+        self.set_report(0x0305, [5, byte, 0, 0, 0, 0])
         self.get_report(0x0304, 520)
         if len(self.settings_package) != 520 or len(self.button_package) != 520:
             raise ValueError("Length of configuration package is incorrect. Check .ini file.")
-        self.set_report(0x0305, self.settings_package)
         self.set_report(0x0304, self.button_package)
+        self.set_report(0x0304, self.settings_package)
 
 
     def parse_settings(self, settings):
         settings = list(settings)
-
         self.raw_header = settings[0:10]
 
         self.raw_polling_rate = settings[10]
@@ -72,6 +71,8 @@ class M601:
 
         self.raw_colorful_steady_colors = settings[86:101]
 
+        self.raw_flicker_colors = settings[111:117]
+
         self.raw_streaming_speed = settings[117]
 
         self.raw_wave_speed = settings[118]
@@ -97,11 +98,10 @@ class M601:
                                  self.raw_breathing_speed, self.raw_breathing_number_of_colors,
                                  *self.raw_breathing_colors, self.raw_tail_speed,
                                  self.raw_neon_speed, 0x30, *self.raw_colorful_steady_colors,
-                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x02, 0, 0xff, 0, 0xfa, 0x03, 0x6a,
+                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, *self.raw_flicker_colors,
                                  self.raw_streaming_speed, self.raw_wave_speed, 0, 0, 0, 0]
         for i in range(397):
             self.settings_package.append(0)
-        
         disabled_button = [0x50, 0x01, 0, 0]
 
         self.button_package = [*self.buttons_header, *self.button_1, *self.button_2,
@@ -137,12 +137,20 @@ class M601:
             raise ValueError('Wrong mode')
         self.set_report(0x0305, [5, 2, mode, 0, 0, 0])
 
+    def hard_reset(self):
+        from values import hard_reset_package_1, hard_reset_package_2, hard_reset_package_3, hard_reset_package_4
+        self.set_report(0x0305, [5, 0x11, 0, 0, 0, 0])
+        shit = self.get_report(0x0304, 520)
+        self.set_report(0x0304, hard_reset_package_2)
+        self.set_report(0x0304, hard_reset_package_1)
+        self.set_report(0x0305, [5, 0x21, 0, 0, 0, 0])
+        shit = self.get_report(0x0304, 520)
+        self.set_report(0x0304, hard_reset_package_4)
+        self.set_report(0x0304, hard_reset_package_3)
+        self.change_mode(1)
+
 
 if __name__ == '__main__':
 
     mouse = M601()
     mouse.read_settings()
-    mouse.parse_settings(mouse.settings_1)
-    mouse.parse_buttons(mouse.buttons_1)
-    mouse.make_package()
-    print(len(mouse.button_package))

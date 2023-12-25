@@ -8,6 +8,11 @@ parser.add_argument("-m", "--Mode", help = "Switch mouse mode (1-2)")
 parser.add_argument("-r", "--Read", 
                     help = "Reads current mouse settings into .ini file",
                     metavar = "FILE")
+parser.add_argument("--hard_reset", 
+                    help = """Writes hard coded reset packages into mouse.
+                    Can help if mouse stopped responding """,
+                    required = False,
+                    metavar = "")
 parser.add_argument("-d", "--Dump", 
                     help = "Reads raw mouse settings into file",
                     metavar = "FILE")
@@ -21,7 +26,6 @@ mouse = M601()
 
 if args.Mode:
     mouse.change_mode(int(args.Mode))
-
 
 if args.Dump:
     mouse.read_settings()
@@ -143,6 +147,12 @@ colorful_steady_LED3_color = {mouse.raw_colorful_steady_colors[6:9]}
 colorful_steady_LED4_color = {mouse.raw_colorful_steady_colors[9:12]}
 colorful_steady_LED5_color = {mouse.raw_colorful_steady_colors[12:15]}
 
+; These parameters are setting colors for the "Flicker" lighting effect
+; [Red, Green, Blue]
+; Possible values are 0-255
+flicker_color_1 = {mouse.raw_flicker_colors[0:3]}
+flicker_color_2 = {mouse.raw_flicker_colors[3:6]}
+
 ; This parameter sets the speed for the "Streaming" lighting effect
 ; Possible values are 1-3
 streaming_speed = {mouse.raw_streaming_speed - 48}
@@ -205,6 +215,13 @@ def parse_ini(mode):
     colorful_steady_colors = colorful_steady_colors.split(",")
     for i in range(15):
         mouse.raw_colorful_steady_colors[i] = int(colorful_steady_colors[i])
+    flicker_colors = ""
+    for i in range(2):
+        flicker_colors += mode[f'flicker_color_{i + 1}']
+    flicker_colors = flicker_colors.replace("][", ",").replace("[", "").replace("]", "")
+    flicker_colors = flicker_colors.split(",")
+    for i in range(6):
+        mouse.raw_flicker_colors[i] = int(flicker_colors[i])
     mouse.raw_streaming_speed = int(mode['streaming_speed']) + 48
     mouse.raw_wave_speed = int(mode['wave_speed']) + 48
 
@@ -226,9 +243,13 @@ if args.Write:
     mouse.parse_buttons(mouse.buttons_1)
     parse_ini(config_1)
     mouse.make_package()
-    mouse.write_settings()
+    mouse.write_settings(0x11)
     mouse.parse_settings(mouse.settings_2)
     mouse.parse_buttons(mouse.buttons_2)
     parse_ini(config_2)
     mouse.make_package()
-    mouse.write_settings()
+    mouse.write_settings(0x21)
+
+
+if args.hard_reset:
+    mouse.hard_reset()
