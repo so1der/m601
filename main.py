@@ -37,7 +37,7 @@ class M601:
     def write_settings(self):
         self.set_report(0x0305, [5, 0x21, 0, 0, 0, 0])
         self.get_report(0x0304, 520)
-        if len(self.settings_package) != 520:
+        if len(self.settings_package) != 520 or len(self.button_package) != 520:
             raise ValueError("Length of configuration package is incorrect. Check .ini file.")
         self.set_report(0x0305, self.settings_package)
         self.set_report(0x0304, self.button_package)
