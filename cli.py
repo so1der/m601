@@ -11,8 +11,7 @@ parser.add_argument("-r", "--Read",
 parser.add_argument("--hard_reset", 
                     help = """Writes hard coded reset packages into mouse.
                     Can help if mouse stopped responding """,
-                    required = False,
-                    metavar = "")
+                    action='store_true')
 parser.add_argument("-d", "--Dump", 
                     help = "Reads raw mouse settings into file",
                     metavar = "FILE")
