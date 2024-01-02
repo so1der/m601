@@ -29,7 +29,7 @@ if args.Mode:
 if args.Dump:
     mouse.read_settings()
     with open(args.Dump, "w") as f:
-        f.write(f"{mouse.settings_1} \n {mouse.settings_2} \n")
+        f.write(f"{mouse.settings_1} \n{mouse.buttons_1} \n{mouse.settings_2} \n{mouse.buttons_2} \n")
 
 
 
