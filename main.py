@@ -90,18 +90,17 @@ class M601:
         self.settings_package = [*self.raw_header,
                                  self.raw_polling_rate, self.raw_active_dpi_presets,
                                  self.raw_disabled_dpi_presets, *self.raw_dpi_values,
-                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, *self.raw_dpi_colors,
-                                 0, 0, 0, 0, 0, 0, 0, 0, 0, self.raw_current_lighting_effect,
+                                 *[0] * 11, *self.raw_dpi_colors, *[0] * 9, 
+                                 self.raw_current_lighting_effect,
                                  self.raw_colorful_streaming_speed,
                                  self.raw_colorful_streaming_direction,
                                  self.raw_steady_brightness, *self.raw_steady_color,
                                  self.raw_breathing_speed, self.raw_breathing_number_of_colors,
                                  *self.raw_breathing_colors, self.raw_tail_speed,
                                  self.raw_neon_speed, 0x30, *self.raw_colorful_steady_colors,
-                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, *self.raw_flicker_colors,
-                                 self.raw_streaming_speed, self.raw_wave_speed, 0, 0, 0, 0]
-        for i in range(397):
-            self.settings_package.append(0)
+                                 *[0] * 9, 2, *self.raw_flicker_colors,
+                                 self.raw_streaming_speed, self.raw_wave_speed, *[0] * 401]
+
         disabled_button = [0x50, 0x01, 0, 0]
 
         self.button_package = [*self.buttons_header, *self.button_1, *self.button_2,
@@ -110,10 +109,8 @@ class M601:
                                0x50, 0x06, 0, 0, *disabled_button, *disabled_button,
                                *disabled_button, *disabled_button, *disabled_button,
                                *disabled_button, *disabled_button, *disabled_button,
-                               *disabled_button, *disabled_button, *disabled_button,]
-        for i in range(432):
-            self.button_package.append(0)
-
+                               *disabled_button, *disabled_button, *disabled_button, *[0] * 432]
+        
     def set_report(self, wValue, payload):
         self.dev.ctrl_transfer(
             0x21,   # bmRequestType
@@ -134,7 +131,7 @@ class M601:
 
     def check_len(self, package, length):
         if (len(package) != length):
-            raise ValueError(f"Length of {package} is incorrect.")
+            raise ValueError("Length of package is incorrect.")
 
     def change_mode(self, mode):
         if mode not in [1, 2]:
