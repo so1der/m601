@@ -76,6 +76,13 @@ dpi_5_color = {mouse.raw_dpi_colors[12:15]}
 ; Possible values: left, right, middle, back, forward,
 ; scroll_up, scroll_down, double_click, triple_click,
 ; dpi_loop, dpi_up, dpi_down, disable_button, switch_effect
+; You can also bin key combinations, for example:
+; ctrl_b
+; ctrl_shift_b
+; alt_b
+; ctrl_alt_b
+; super_b
+; super_shift_b
 button_1 = {list(buttons_codes.keys())[list(buttons_codes.values()).index(list(mouse.button_1))]}
 button_2 = {list(buttons_codes.keys())[list(buttons_codes.values()).index(list(mouse.button_2))]}
 button_3 = {list(buttons_codes.keys())[list(buttons_codes.values()).index(list(mouse.button_3))]}
