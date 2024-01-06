@@ -1,3 +1,4 @@
+"""This file contains certain values for mouse configuration."""
 DPI = [500, 800, 1000, 1200, 1600, 2000,
        2400, 3000, 3200, 3500, 4000, 4500,
        5000, 5500, 6000, 7200]

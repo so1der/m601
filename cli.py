@@ -1,23 +1,24 @@
+"""This file provides command-line interface to communicate with mouse."""
 import argparse
 import configparser
 from values import DPI, polling_rate, buttons_codes
 from main import M601
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-m", "--Mode", help = "Switch mouse mode (1-2)")
-parser.add_argument("-r", "--Read", 
-                    help = "Reads current mouse settings into .ini file",
-                    metavar = "FILE")
-parser.add_argument("--hard_reset", 
-                    help = """Writes hard coded reset packages into mouse.
+parser.add_argument("-m", "--Mode", help="Switch mouse mode (1-2)")
+parser.add_argument("-r", "--Read",
+                    help="Reads current mouse settings into .ini file",
+                    metavar="FILE")
+parser.add_argument("--hard_reset",
+                    help="""Writes hard coded reset packages into mouse.
                     Can help if mouse stopped responding """,
                     action='store_true')
-parser.add_argument("-d", "--Dump", 
-                    help = "Reads raw mouse settings into file",
-                    metavar = "FILE")
+parser.add_argument("-d", "--Dump",
+                    help="Reads raw mouse settings into file",
+                    metavar="FILE")
 parser.add_argument("-w", "--Write",
-                    help = "Writes settings from .ini file into mouse",
-                    metavar = "FILE")
+                    help="Writes settings from .ini file into mouse",
+                    metavar="FILE")
 
 args = parser.parse_args()
 
@@ -32,8 +33,8 @@ if args.Dump:
         f.write(f"{mouse.settings_1} \n{mouse.buttons_1} \n{mouse.settings_2} \n{mouse.buttons_2} \n")
 
 
-
 def make_ini(mode):
+    """Make .ini file according to a mouse object variables."""
     ini = f"""[{mode}]
 ; This parameter sets the USB polling rate.
 ; Possible value for this mouse is 125, 250, 500, or 1000 Hz
@@ -163,6 +164,7 @@ wave_speed = {mouse.raw_wave_speed - 48}
 """
     return ini
 
+
 if args.Read:
     mouse.read_settings()
     mouse.parse_settings(mouse.settings_1)
@@ -174,7 +176,9 @@ if args.Read:
     with open(f"{args.Read}.ini", "a") as f:
         f.write(make_ini("mode_2"))
 
+
 def parse_ini(mode):
+    """Parse certain values from .ini file into object."""
     mouse.raw_polling_rate = polling_rate.index(int(mode['usb_polling_rate'])) + 1
     mouse.raw_active_dpi_presets = int(f"{mode['active_dpi_preset']}{mode['disabled_dpi_presets'].count('0')}", 16)
     mouse.raw_disabled_dpi_presets = int(mode['disabled_dpi_presets'][::-1], 2) + 224
