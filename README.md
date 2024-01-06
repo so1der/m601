@@ -1,3 +1,6 @@
+
+![alt tag](https://raw.githubusercontent.com/so1der/m601/main/images/banner.png "Banner")
+
 This Python script allows you to control the Redragon M601-RGB gaming mouse from your terminal!
 
 **Disclaimer: This software is not supported by the manufacturer of the hardware in any way, and relies completely on information from reverse-engineering. There is no warranty, especially in case of damage to the hardware**
