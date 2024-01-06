@@ -21,25 +21,12 @@ python cli.py -m 2
 If the mouse did respond, congratulations! It means your mouse is likely supported by this software!
 
 # First steps
-First of all, you need to clone this repository to your machine:
+First of all, you need to clone this repository to your machine, make virtual environment, activate it, and install main requirement - python library [PyUSB](https://pypi.org/project/pyusb/)
 ```bash
 git clone https://github.com/so1der/m601
 cd m601
-```
-After that, you need to make a virtual environment:
-```bash
 python -m venv venv
-```
-And activate it:
-```bash
 source venv/bin/activate
-```
-Now you can install the main requirement of this script - python library [PyUSB](https://pypi.org/project/pyusb/) by executing the command:
-```bash
-pip install pyusb
-```
-or
-```bash
 pip install -r requirements.txt
 ```
 Now you can use it!
