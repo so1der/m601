@@ -93,6 +93,7 @@ m601 -w settings.ini
 python cli.py -w settings.ini
 ```
 Thats it! Your new settings should be already in the mouse.
+**Note: In my case, after binding key combinations, I need to reconnect mouse, otherwise key combinations won't work. I dont know if this is software related problem, or Linux related.**
 
 There is also a file called 'default_settings.ini' in this repository, you can reset your mouse settings by writing this file into your mouse:
 ```bash
