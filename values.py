@@ -53,7 +53,7 @@ buttons_codes = {
     'dpi_up': [0x41, 0x01, 0, 0],
     'dpi_down': [0x41, 0x02, 0, 0],
     'disable_button': [0x50, 0x01, 0, 0],
-    'test': [0x50, 0x02, 0, 0],
+    'disable_lighting': [0x50, 0x02, 0, 0],
     'change_mode': [0x50, 0x06, 0, 0],
     'switch_effect': [0x50, 0x07, 0, 0],
     **key_combinations_codes
