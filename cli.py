@@ -75,7 +75,7 @@ dpi_5_color = {mouse.raw_dpi_colors[12:15]}
 ; These parameters are setting certain mouse buttons
 ; Possible values: left, right, middle, back, forward,
 ; scroll_up, scroll_down, double_click, triple_click,
-; dpi_loop, dpi_up, dpi_down, disable_button, switch_effect
+; dpi_loop, dpi_up, dpi_down, disable_button, switch_effect, change_mode
 ; You can also bin key combinations, for example:
 ; ctrl_b
 ; ctrl_shift_b
@@ -89,6 +89,7 @@ button_3 = {list(buttons_codes.keys())[list(buttons_codes.values()).index(list(m
 button_4 = {list(buttons_codes.keys())[list(buttons_codes.values()).index(list(mouse.button_4))]}
 button_5 = {list(buttons_codes.keys())[list(buttons_codes.values()).index(list(mouse.button_5))]}
 button_6 = {list(buttons_codes.keys())[list(buttons_codes.values()).index(list(mouse.button_6))]}
+button_7 = {list(buttons_codes.keys())[list(buttons_codes.values()).index(list(mouse.button_7))]}
 
 ; This parameter sets the current lighting effect:
 ; 0 = None
@@ -241,6 +242,7 @@ def parse_ini(mode):
     mouse.button_4 = buttons_codes[mode['button_4']]
     mouse.button_5 = buttons_codes[mode['button_5']]
     mouse.button_6 = buttons_codes[mode['button_6']]
+    mouse.button_7 = buttons_codes[mode['button_7']]
 
 
 if args.Write:

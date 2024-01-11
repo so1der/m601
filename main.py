@@ -96,6 +96,7 @@ class M601:
         self.button_4 = buttons[24:28]
         self.button_5 = buttons[20:24]
         self.button_6 = buttons[32:36]
+        self.button_7 = buttons[40:44]
 
     def make_package(self):
         """Make settings and buttons package."""
@@ -131,7 +132,7 @@ class M601:
                                0x50, 0x06, 0, 0,
                                *self.button_6,
                                *disabled_button,
-                               0x50, 0x06, 0, 0,
+                               *self.button_7,
                                *disabled_button,
                                *disabled_button,
                                *disabled_button,
@@ -194,3 +195,5 @@ if __name__ == '__main__':
 
     mouse = M601()
     mouse.read_settings()
+    mouse.parse_buttons(mouse.buttons_1)
+    print(mouse.button_7)
