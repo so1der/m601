@@ -5,6 +5,13 @@ This Python script allows you to control the Redragon M601-RGB gaming mouse from
 
 **Disclaimer: This software is not supported by the manufacturer of the hardware in any way, and relies completely on information from reverse-engineering. There is no warranty, especially in case of damage to the hardware**
 
+- [Compatibility](#compatibility)
+- [First steps](#first-steps)
+- [Compiling](#compiling)
+- [Usage](#usage)
+- [Some hardware info](#some-hardware-info)
+
+# Compatibility
 First of all, make sure that the VID and PID of your mouse match these: "258a:1007"
 You can check it by executing the following command in your terminal:
 ```bash
@@ -108,7 +115,6 @@ m601 --hard_reset
 python cli.py --hard_reset
 ```
 
-
 In addition, you can also change the mouse mode:
 ```bash
 m601 -m 1
@@ -123,3 +129,9 @@ m601 -d dump
 # or
 python cli.py -d dump
 ```
+
+# Some hardware info
+
+There is a 32-bit microcontroller inside this mouse - "Bayi BY8832". I didn't find any info about this microcontroller, but while searching "BY8832" on the internet, you can find articles about many other mice (e.g. Marvo, Imperion, Hiper, Dream Machines, etc.) this microcontroller unites them all. They also have very similar UI in the official software. Maybe all those mice also can be controlled via this software, but I'm not sure since this is a microcontroller, they could just implement a different protocol or something (of course if the software communicates with the microcontroller not just reflashing it). If you have a mouse with BY8832 and can capture some packages from the original software, please, send them to me, I would be very happy to analyze them.
+
+![alt tag](https://raw.githubusercontent.com/so1der/m601/main/images/by8832.jpg "Bayi BY8832 32-bit micro-controller")
