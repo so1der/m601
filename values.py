@@ -56,6 +56,7 @@ buttons_codes = {
     'disable_lighting': [0x50, 0x02, 0, 0],
     'change_mode': [0x50, 0x06, 0, 0],
     'switch_effect': [0x50, 0x07, 0, 0],
+    'macro': [112, 1, 1, 1],
     **key_combinations_codes
 }
 
