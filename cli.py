@@ -75,7 +75,7 @@ dpi_5_color = {mouse.raw_dpi_colors[12:15]}
 ; These parameters are setting certain mouse buttons
 ; Possible values: left, right, middle, back, forward,
 ; scroll_up, scroll_down, double_click, triple_click,
-; dpi_loop, dpi_up, dpi_down, disable_button, switch_effect, change_mode
+; dpi_loop, dpi_up, dpi_down, disable_button, switch_effect, macro, change_mode
 ; You can also bin key combinations, for example:
 ; ctrl_b
 ; ctrl_shift_b
