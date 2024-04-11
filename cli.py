@@ -2,6 +2,9 @@
 import argparse
 import configparser
 from values import DPI, polling_rate, buttons_codes
+from values import hid_mod_buttons, hid_buttons
+from values import mod_actions, simple_actions
+from values import macros_package_header
 from main import M601
 
 parser = argparse.ArgumentParser()
@@ -19,6 +22,10 @@ parser.add_argument("-d", "--Dump",
 parser.add_argument("-w", "--Write",
                     help="Writes settings from .ini file into mouse",
                     metavar="FILE")
+parser.add_argument("-um", "--upload_macros",
+                    help="Uploads macros from file into mouse",
+                    metavar=("NUMBER","FILE"),
+                    nargs=2)
 
 args = parser.parse_args()
 
@@ -172,6 +179,68 @@ wave_speed = {mouse.raw_wave_speed - 48}
 """
     return ini
 
+def define_button_type(button):
+    if button in hid_buttons.keys():
+        return "simple"
+    elif button in hid_mod_buttons.keys():
+        return "mod"
+    else :
+        return "unknown"
+
+
+def make_macros_package(number, file):
+    if int(number) not in range(1, 6):
+        raise ValueError(f"Possible macros numbers are 1-5")
+    
+    raw_macro = [*macros_package_header]
+
+    with open(file, "r") as f:
+        macros = f.readlines()
+
+    actions_counter = 0
+
+    for line in macros:
+        line = line.replace("\n", "")
+        line = line.split(" ")
+
+        action = line[0]
+        value = line[1]
+
+        if (action == "down") or (action == "up"):
+            button_type = define_button_type(value)
+
+            if button_type == "simple":
+                raw_macro.append(simple_actions[action])
+                raw_macro.append(0x05)
+                raw_macro.append(hid_buttons[value])
+
+            elif button_type == "mod":
+                raw_macro.append(mod_actions[action])
+                raw_macro.append(0x05)
+                raw_macro.append(hid_mod_buttons[value])
+
+            else:
+                raise ValueError(f"Unknown button '{value}'")
+            actions_counter += 1
+                
+        if action == "delay":
+            delay_high_byte = raw_macro[len(raw_macro) - 3]
+            full_delay = (delay_high_byte * 0x100) + int(value)
+            delay_high_byte, delay_low_byte = divmod(full_delay, 0x100)
+            raw_macro.pop(len(raw_macro) - 2)
+            raw_macro.pop(len(raw_macro) - 2)
+            raw_macro.insert(len(raw_macro) - 1, delay_high_byte)
+            raw_macro.insert(len(raw_macro) - 1, delay_low_byte)
+
+    raw_macro[8] = int(number)
+    raw_macro[10] = actions_counter
+
+    if len(raw_macro) > 520:
+        raise ValueError(f"Too big macros")
+
+    raw_macro = [*raw_macro, *[0] * (520 - len(raw_macro))]
+    return raw_macro
+
 
 if args.Read:
     mouse.read_settings()
@@ -265,3 +334,9 @@ if args.Write:
 
 if args.hard_reset:
     mouse.hard_reset()
+
+
+if args.upload_macros:
+    macros_package = make_macros_package(args.upload_macros[0], 
+                                         args.upload_macros[1])
+    mouse.write_macros(macros_package)
