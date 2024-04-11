@@ -189,6 +189,17 @@ class M601:
         self.set_report(0x0304, hard_reset_package_4)
         self.set_report(0x0304, hard_reset_package_3)
         self.change_mode(1)
+    
+    def write_macros(self, macros_package):
+        """Write macros to the mouse"""
+        self.check_len(macros_package, 520)
+        self.set_report(0x0305, [5, 0x11, 0, 0, 0, 0])
+        self.get_report(0x0304, 520)
+        self.set_report(0x0304, macros_package)
+
+
+
+
 
 
 if __name__ == '__main__':
