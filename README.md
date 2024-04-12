@@ -24,7 +24,7 @@ Bus 001 Device 008: ID 258a:1007 SINOWEALTH Wired Gaming Mouse
 ```
 If your VID:PID didn't match 258a:1007, or you have a different mouse from Redragon, you can check [mouse_m908](https://github.com/dokutan/mouse_m908) repository from [dokutan](https://github.com/dokutan). 
 
-After you ensured that VID:PID of your mouse is correct, you can try to change mouse mode:
+After you ensured that VID:PID of your mouse is correct, you can try to change mouse mode (see "First steps" section):
 ```bash
 python cli.py -m 1
 python cli.py -m 2
@@ -167,6 +167,8 @@ button_6 = macro_1
 button_6 = macro_2  
 etc  
 After that, upload .ini file reconnect (in my case) the mouse, and You're good to go! If You find any errors, please let me know.
+
+There are default 5 ms delay between macros actions. You can decrease it down to 1 ms, but in my case, with 1 ms delay often the order of actions of the macros did not match the file, so I increase it up to 5 ms. You can change it in the file 'cli.py', lines 214 and 219. _raw_macro.append(0x05)_, 0x05 in this case determines delay in the hex format.
 
 # Some hardware info
 
