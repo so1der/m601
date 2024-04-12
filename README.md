@@ -84,6 +84,9 @@ After that, you can deactivate the virtual environment and execute this file in 
 m601 -h
 ```
 # Usage
+
+![alt tag](https://raw.githubusercontent.com/so1der/m601/main/images/buttons_map.png "Buttons map")
+
 First of all, you need to read the current settings from your mouse:
 ```bash
 m601 -r settings
