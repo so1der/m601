@@ -9,6 +9,7 @@ This Python script allows you to control the Redragon M601-RGB gaming mouse from
 - [First steps](#first-steps)
 - [Compiling](#compiling)
 - [Usage](#usage)
+- [Macros](#macros)
 - [Some hardware info](#some-hardware-info)
 
 # Compatibility
@@ -129,6 +130,40 @@ m601 -d dump
 # or
 python cli.py -d dump
 ```
+
+# Macros
+
+**Disclaimer: The macros feature was not properly tested, since I'm not using macros, I only tested a few of them.**
+
+To make macros, You need to create a text file with actions. There must be no empty lines in the file.
+Each line contains an action and a parameter separated by a spacebar. Supported actions are:
+
+- down ⟨key⟩
+- up ⟨key⟩
+- delay ⟨ms⟩
+
+You can see possible keys in 'values.py' file (hid_mod_buttons and hid_buttons , there are not all keys, I will add more eventually)
+So, for example:
+
+
+down 1  
+up 1  
+down 2  
+up 2  
+down 3  
+up 3  
+
+
+So after You save file for example as 'macros_file', You can upload it into the mouse:
+```bash
+python cli.py -um 1 macros_file
+```
+Where '1' is the number of a macro memory cell. For now, only 5 are available (since in the original software you can bind only 5 macros because at least one mouse button needs to be LMB)
+And of course, You need to set one of the mouse buttons as a macro button in .ini file:  
+button_6 = macro_1  
+button_6 = macro_2  
+etc  
+After that, upload .ini file reconnect (in my case) the mouse, and You're good to go! If You find any errors, please let me know.
 
 # Some hardware info
 
