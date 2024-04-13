@@ -79,7 +79,7 @@ Now you can copy it in your /usr/local/bin/ directory:
 ```bash
 sudo cp m601 /usr/local/bin/
 ```
-After that, you can deactivate the virtual environment and execute this file in any library!
+After that, you can deactivate the virtual environment and execute this file in any directory!
 ```bash
 m601 -h
 ```
