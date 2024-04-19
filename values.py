@@ -62,6 +62,9 @@ for button, value in hid_buttons.items():
     combination_name = 'super_shift_' + button
     key_combinations_codes[combination_name] = [0x21, 0x0a, value, 0]
 
+    combination_name = button
+    key_combinations_codes[combination_name] = [0x21, 0, value, 0]
+
 buttons_codes = {
     'left': [0x11, 0x01, 0, 0],
     'right': [0x11, 0x02, 0, 0],
