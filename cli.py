@@ -82,7 +82,8 @@ dpi_5_color = {mouse.raw_dpi_colors[12:15]}
 ; These parameters are setting certain mouse buttons
 ; Possible values: left, right, middle, back, forward,
 ; scroll_up, scroll_down, double_click, triple_click,
-; dpi_loop, dpi_up, dpi_down, disable_button, switch_effect, macro, change_mode
+; dpi_loop, dpi_up, dpi_down, disable_button, switch_effect, change_mode
+; macro_1, macro_2, macro_3, macro_4, macro_5
 ; You can also bin key combinations, for example:
 ; ctrl_b
 ; ctrl_shift_b
@@ -90,6 +91,7 @@ dpi_5_color = {mouse.raw_dpi_colors[12:15]}
 ; ctrl_alt_b
 ; super_b
 ; super_shift_b
+; b (simple HID button as a key combination)
 button_1 = {list(buttons_codes.keys())[list(buttons_codes.values()).index(list(mouse.button_1))]}
 button_2 = {list(buttons_codes.keys())[list(buttons_codes.values()).index(list(mouse.button_2))]}
 button_3 = {list(buttons_codes.keys())[list(buttons_codes.values()).index(list(mouse.button_3))]}
