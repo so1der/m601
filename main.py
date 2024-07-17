@@ -203,8 +203,5 @@ class M601:
 
 
 if __name__ == '__main__':
+    pass
 
-    mouse = M601()
-    mouse.read_settings()
-    mouse.parse_buttons(mouse.buttons_1)
-    print(mouse.button_7)
